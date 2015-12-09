@@ -133,8 +133,14 @@ enum EnumKeys {
   SW_ID0=SW_BASE,
   SW_ID1,
   SW_ID2,
+#if !defined(MORE_3POS)
   SW_THR,
   SW_RUD,
+#else
+  SW_TH0,
+  SW_TH1,
+  SW_TH2,
+#endif
   SW_ELE,
   SW_AIL,
   SW_GEA,

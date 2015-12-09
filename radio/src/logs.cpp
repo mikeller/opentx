@@ -199,7 +199,11 @@ void writeHeader()
   }
   f_puts("SA,SB,SC,SD,SE,SF,SG,SH\n", &g_oLogFile);
 #else
+#if !defined(MORE_3POS)
   f_puts("Rud,Ele,Thr,Ail,P1,P2,P3,THR,RUD,ELE,3POS,AIL,GEA,TRN\n", &g_oLogFile);
+#else
+  f_puts("Rud,Ele,Thr,Ail,P1,P2,P3,3THR,ELE,3POS,AIL,GEA,TRN\n", &g_oLogFile);
+#endif
 #endif
 }
 
@@ -342,8 +346,12 @@ void writeLogs()
           get2PosState(SH));
 #else
       int result = f_printf(&g_oLogFile, "%d,%d,%d,%d,%d,%d,%d\n",
+#if !defined(MORE_3POS)
           get2PosState(THR),
           get2PosState(RUD),
+#else
+          get3PosState(TH),
+#endif
           get2PosState(ELE),
           get3PosState(ID),
           get2PosState(AIL),

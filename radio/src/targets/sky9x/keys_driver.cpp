@@ -170,9 +170,23 @@ bool switchState(EnumKeys enuk)
       xxx = a & 0x00000004; // AIL-DR  PA2
       break;
 
+#if !defined(MORE_3POS)
     case SW_RUD:
       xxx = a & 0x00008000; // RUN_DR   PA15
       break;
+#else
+    case SW_TH0:
+      xxx = ~c & 0x00100000; // SW_TCUT     PC20
+    break;
+    case SW_TH1:
+      xxx = c & 0x00100000; // SW_TCUT     PC20
+      if (xxx) xxx = a & 0x00008000; // RUN_DR   PA15
+    break;
+    case SW_TH2:
+      xxx = a & 0x00008000; // RUN_DR   PA15
+    break;
+#endif
+
       //     INP_G_ID1 INP_E_ID2
       // id0    0        1
       // id1    1        1
@@ -192,12 +206,14 @@ bool switchState(EnumKeys enuk)
       xxx = c & 0x00010000; // SW_GEAR     PC16
       break;
 
+#if !defined(MORE_3POS)
 #if defined(REVA)
     case SW_THR:
       xxx = a & 0x10000000; // SW_TCUT     PA28
 #else
     case SW_THR:
       xxx = c & 0x00100000; // SW_TCUT     PC20
+#endif
 #endif
       break;
 
