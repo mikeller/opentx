@@ -347,8 +347,15 @@
   #define SWSRC_ID2        SWSRC_SA2
   #define SW_DSM2_BIND     SW_SH2
 #else
+#if !defined(MORE_3POS)
   #define NUM_SWITCHES     7
   #define IS_3POS(sw)      ((sw) == 0)
+#else
+  #define NUM_SWITCHES     11
+  #define IS_3POS(sw)      ((sw) == 0 || (sw) == 3 || (sw) == 6)
+  #define SWSRC_THR        SWSRC_TH2
+  #define SWSRC_RUD        SWSRC_RU2
+#endif
   #define IS_MOMENTARY(sw) (sw == SWSRC_TRN)
   #define NUM_SW_SRCRAW    1
   #define SW_DSM2_BIND     SW_TRN

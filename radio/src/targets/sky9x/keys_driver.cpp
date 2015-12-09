@@ -185,6 +185,18 @@ bool switchState(EnumKeys enuk)
     case SW_TH2:
       xxx = a & 0x00008000; // RUN_DR   PA15
     break;
+
+    // for the moment we read the 3POS for THR and RUD from the same HW input
+    case SW_RU0:
+      xxx = ~c & 0x00100000; // SW_TCUT     PC20
+    break;
+    case SW_RU1:
+      xxx = c & 0x00100000; // SW_TCUT     PC20
+      if (xxx) xxx = a & 0x00008000; // RUN_DR   PA15
+    break;
+    case SW_RU2:
+      xxx = a & 0x00008000; // RUN_DR   PA15
+    break;
 #endif
 
       //     INP_G_ID1 INP_E_ID2

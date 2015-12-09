@@ -140,6 +140,9 @@ enum EnumKeys {
   SW_TH0,
   SW_TH1,
   SW_TH2,
+  SW_RU0,
+  SW_RU1,
+  SW_RU2,
 #endif
   SW_ELE,
   SW_AIL,

@@ -1702,8 +1702,17 @@ enum SwitchSources {
   SWSRC_ID0 = SWSRC_FIRST_SWITCH,
   SWSRC_ID1,
   SWSRC_ID2,
+#if !defined(MORE_3POS)
   SWSRC_THR,
   SWSRC_RUD,
+#else
+  SWSRC_TH0,
+  SWSRC_TH1,
+  SWSRC_TH2,
+  SWSRC_RU0,
+  SWSRC_RU1,
+  SWSRC_RU2,
+#endif
   SWSRC_ELE,
   SWSRC_AIL,
   SWSRC_GEA,
