@@ -137,11 +137,10 @@ inline void UART3_Configure(uint32_t baudrate, uint32_t masterClock)
 
   /* Enable receiver and transmitter */
   pUart->UART_CR = UART_CR_RXEN | UART_CR_TXEN;
-  
-#if 0
-  pUart->UART_IER = UART_IER_RXRDY ;
-  NVIC_EnableIRQ(UART1_IRQn) ;
-#endif
+
+  pUart->UART_IER = UART_IER_RXRDY;
+  NVIC_SetPriority(UART1_IRQn, 5); 
+  NVIC_EnableIRQ(UART1_IRQn);
 }
 
 void UART3_Stop()
