@@ -91,6 +91,8 @@ ELSE()
   MESSAGE( "QT lupdate not found!" )
 ENDIF()
 
+ADD_DEFINITIONS(-DQXT_STATIC)
+
 ADD_CUSTOM_COMMAND(
   COMMAND ${XSDCXX_EXECUTABLE} cxx-tree --root-element-all --generate-serialization --output-dir ${PROJECT_BINARY_DIR}/ ${PROJECT_SOURCE_DIR}/radio.xsd
   OUTPUT ${PROJECT_BINARY_DIR}/radio.hxx ${PROJECT_BINARY_DIR}/radio.cxx
@@ -124,6 +126,7 @@ include_directories(
   ${PROJECT_SOURCE_DIR}/shared
   ${SIMU_SRC_DIRECTORY}
   ${XSD_INCLUDE_DIR}
+  ${PROJECT_SOURCE_DIR}/qxtcommandoptions
 )
 
 add_subdirectory(shared)
@@ -132,6 +135,7 @@ add_subdirectory(generaledit)
 add_subdirectory(simulation)
 add_subdirectory(firmwares/opentx/simulator)
 add_subdirectory(qcustomplot)
+add_subdirectory(qxtcommandoptions)
 
 set(common_SRCS
   eeprominterface.cpp
@@ -347,7 +351,7 @@ else()
   add_executable(${SIMULATOR_NAME} WIN32 ${simu_SRCS})
 endif()
 
-target_link_libraries(${SIMULATOR_NAME} simulation common ${QT_LIBRARIES} ${QT_QTMAIN_LIBRARY} ${PTHREAD_LIBRARY} ${SDL_LIBRARY} ${PHONON_LIBS} ${OPENTX_SIMULATOR_LIBS})
+target_link_libraries(${SIMULATOR_NAME} simulation common qxtcommandoptions ${QT_LIBRARIES} ${QT_QTMAIN_LIBRARY} ${PTHREAD_LIBRARY} ${SDL_LIBRARY} ${PHONON_LIBS} ${OPENTX_SIMULATOR_LIBS})
 
 ############# Packaging ####################
 
