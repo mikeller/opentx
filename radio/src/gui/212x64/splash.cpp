@@ -23,7 +23,7 @@
 #if defined(SPLASH)
 const pm_uchar splashdata[] PROGMEM = {
   'S','P','S',0,
-  #include "bitmaps/212x64/splash.lbm"
+  #include "bitmaps/212x64/bf_logo_212_64.lbm"
   'S','P','E',0 };
 const pm_uchar * const splash_lbm = splashdata+4;
 
