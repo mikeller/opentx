@@ -22,7 +22,7 @@
 
 #if defined(SPLASH)
 
-#include "bmp_splash.lbm"
+#include "bmp_bf_logo_480_272.lbm"
 
 void drawSplash()
 {
@@ -45,9 +45,9 @@ void drawSplash()
                         splashImg);
     }
     else {
-        lcd->drawBitmap((LCD_W - BMP_SPLASH.getWidth())/2,
-                        (LCD_H - BMP_SPLASH.getHeight())/2,
-                        &BMP_SPLASH);
+        lcd->drawBitmap((LCD_W - BMP_BF_LOGO_480_272.getWidth())/2,
+                        (LCD_H - BMP_BF_LOGO_480_272.getHeight())/2,
+                        &BMP_BF_LOGO_480_272);
     }
 
 #if MENUS_LOCK == 1
