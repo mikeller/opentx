@@ -32,7 +32,7 @@ build_model () {
     if [ "${MAKE_CLEAN}" ]; then
         make clean
     fi
-    cmake  -DMULTIMODULE=ON -DLUA_COMPILER=ON -DLOG_TELEMETRY=ON -DHELI=OFF -DDANGEROUS_MODULE_FUNCTIONS=ON -DPCB=${model} ../
+    cmake  -DMULTIMODULE=ON -DLUA_COMPILER=ON -DHELI=OFF -DDANGEROUS_MODULE_FUNCTIONS=ON -DPCB=${model} ../
     PATH=${OPENTX_ARM_TOOLCHAIN_PATH}:${PATH} make firmware
     cp firmware.bin ../${FIRMWARE_DIR}/opentx-firmware-${GIT_TAG}-${model}.bin
     popd
