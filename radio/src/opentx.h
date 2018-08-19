@@ -479,6 +479,10 @@ void memswap(void * a, void * b, uint8_t size);
   #define MASK_FUNC_TYPE uint8_t   // current max = 8 functions
 #endif
 
+#define MIN_MAX_SEND_ALL_CHANNELS_INTERVAL ((uint8_t)2)
+#define MAX_MAX_SEND_ALL_CHANNELS_INTERVAL ((uint8_t)110)
+#define DEFAULT_MAX_SEND_ALL_CHANNELS_INTERVAL ((uint8_t)22)
+
 typedef struct {
   MASK_FUNC_TYPE activeFunctions;
   MASK_CFN_TYPE  activeSwitches;

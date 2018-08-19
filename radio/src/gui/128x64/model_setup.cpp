@@ -76,6 +76,7 @@ enum MenuModelSetupItems {
   ITEM_MODEL_INTERNAL_MODULE_LABEL,
   ITEM_MODEL_INTERNAL_MODULE_MODE,
   ITEM_MODEL_INTERNAL_MODULE_CHANNELS,
+  ITEM_MODEL_INTERNAL_MODULE_INTERVAL,
   ITEM_MODEL_INTERNAL_MODULE_BIND,
   ITEM_MODEL_INTERNAL_MODULE_FAILSAFE,
 #if defined(PCBXLITE)
@@ -91,6 +92,7 @@ enum MenuModelSetupItems {
   ITEM_MODEL_EXTERNAL_MODULE_SYNCSTATUS,
 #endif
   ITEM_MODEL_EXTERNAL_MODULE_CHANNELS,
+  ITEM_MODEL_EXTERNAL_MODULE_INTERVAL,
   ITEM_MODEL_EXTERNAL_MODULE_BIND,
 #if defined(PCBSKY9X) && defined(REVX)
   ITEM_MODEL_EXTERNAL_MODULE_OUTPUT_TYPE,
@@ -168,6 +170,13 @@ enum MenuModelSetupItems {
   #define OUTPUT_TYPE_ROWS()
 #endif
   #define PORT_CHANNELS_ROWS(x)          (x==EXTERNAL_MODULE ? EXTERNAL_MODULE_CHANNELS_ROWS : 0)
+
+#if defined(TARANIS_INTERNAL_PPM)
+#define INTERNAL_MODULE_INTERVAL_ROWS     HIDDEN_ROW
+#else
+#define INTERNAL_MODULE_INTERVAL_ROWS     IF_INTERNAL_MODULE_ON(IS_R9M_OR_XJTD16(INTERNAL_MODULE) ? 0 : HIDDEN_ROW)
+#endif
+#define PORT_INTERVAL_ROWS(x)             (x==EXTERNAL_MODULE ? EXTERNAL_MODULE_INTERVAL_ROWS : 0)
 
   #define EXTERNAL_MODULE_MODE_ROWS      (IS_MODULE_PXX(EXTERNAL_MODULE) || IS_MODULE_DSM2(EXTERNAL_MODULE) || IS_MODULE_MULTIMODULE(EXTERNAL_MODULE)) ? (uint8_t)1 : (uint8_t)0
 
@@ -280,6 +289,7 @@ void menuModelSetup(event_t event)
     LABEL(InternalModule),
     INTERNAL_MODULE_MODE_ROWS,
     INTERNAL_MODULE_CHANNELS_ROWS,
+    INTERNAL_MODULE_INTERVAL_ROWS,
     IF_INTERNAL_MODULE_ON(HAS_RF_PROTOCOL_MODELINDEX(g_model.moduleData[INTERNAL_MODULE].rfProtocol) ? (uint8_t)2 : (uint8_t)1),
     IF_INTERNAL_MODULE_ON(FAILSAFE_ROWS(INTERNAL_MODULE)),
     ANTENNA_ROW
@@ -288,6 +298,7 @@ void menuModelSetup(event_t event)
     MULTIMODULE_SUBTYPE_ROWS(EXTERNAL_MODULE)
     MULTIMODULE_STATUS_ROWS
     EXTERNAL_MODULE_CHANNELS_ROWS,
+    EXTERNAL_MODULE_INTERVAL_ROWS,
     EXTERNAL_MODULE_BIND_ROWS(),
     OUTPUT_TYPE_ROWS()
     EXTERNAL_MODULE_OPTION_ROW,
@@ -1047,6 +1058,27 @@ void menuModelSetup(event_t event)
             }
           }
         }
+        break;
+      }
+#endif
+
+#if defined(PCBTARANIS)
+      case ITEM_MODEL_INTERNAL_MODULE_INTERVAL:
+#endif
+#if defined(CPUARM)
+      case ITEM_MODEL_EXTERNAL_MODULE_INTERVAL:
+      {
+        uint8_t moduleIdx = CURRENT_MODULE_EDITED(k);
+        ModuleData & moduleData = g_model.moduleData[moduleIdx];
+        lcdDrawTextAlignedLeft(y, STR_CHANNELINTERVAL);
+        if ((int8_t)PORT_INTERVAL_ROWS(moduleIdx) >= 0) {
+          moduleData.pxx.sendAllChannelsInterval = min(max(moduleData.pxx.sendAllChannelsInterval, MIN_MAX_SEND_ALL_CHANNELS_INTERVAL), MAX_MAX_SEND_ALL_CHANNELS_INTERVAL);
+          lcdDrawNumber(MODEL_SETUP_2ND_COLUMN, y, moduleData.pxx.sendAllChannelsInterval, LEFT | attr);
+          if (attr && s_editMode>0) {
+            CHECK_INCDEC_MODELVAR(event, moduleData.pxx.sendAllChannelsInterval, MIN_MAX_SEND_ALL_CHANNELS_INTERVAL, MAX_MAX_SEND_ALL_CHANNELS_INTERVAL);
+          }
+        }
+
         break;
       }
 #endif

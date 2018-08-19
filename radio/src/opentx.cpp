@@ -505,9 +505,12 @@ void modelDefault(uint8_t id)
 #if defined(PCBTARANIS) || defined(PCBHORUS)
   g_model.moduleData[INTERNAL_MODULE].type = MODULE_TYPE_XJT;
   g_model.moduleData[INTERNAL_MODULE].channelsCount = DEFAULT_CHANNELS(INTERNAL_MODULE);
+  g_model.moduleData[INTERNAL_MODULE].pxx.sendAllChannelsInterval = DEFAULT_MAX_SEND_ALL_CHANNELS_INTERVAL;
 #elif defined(PCBSKY9X)
   g_model.moduleData[EXTERNAL_MODULE].type = MODULE_TYPE_PPM;
 #endif
+
+  g_model.moduleData[EXTERNAL_MODULE].pxx.sendAllChannelsInterval = DEFAULT_MAX_SEND_ALL_CHANNELS_INTERVAL;
 
 #if defined(PCBXLITE)
   g_model.trainerMode = TRAINER_MODE_MASTER_BLUETOOTH;
