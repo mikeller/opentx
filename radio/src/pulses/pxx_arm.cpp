@@ -24,9 +24,6 @@
 #define PXX_SEND_FAILSAFE                  (1 << 4)
 #define PXX_SEND_RANGECHECK                (1 << 5)
 
-#define PXX_CHANNEL_MAX_INTERVAL_FRAMES 11
-#define MOVEMENT_THRESHOLD 0
-
 const uint16_t CRCTable[]=
 {
   0x0000,0x1189,0x2312,0x329b,0x4624,0x57ad,0x6536,0x74bf,
@@ -304,7 +301,7 @@ inline void putPcmTail(uint8_t port)
 }
 #endif
 
-inline void setupFramePXX(uint8_t port, uint8_t sendUpperChannels)
+inline void setupFramePXX(uint8_t port, uint8_t sendUpperChannels, uint8_t sendAllChannelsInterval)
 {
   static int lastChannelValues[16];
   static uint32_t frameCounter = 0;
@@ -342,7 +339,7 @@ inline void setupFramePXX(uint8_t port, uint8_t sendUpperChannels)
   /* FLAG2 */
   putPcmByte(port, 0);
 
-  unsigned slot = (frameCounter++ % PXX_CHANNEL_MAX_INTERVAL_FRAMES);
+  unsigned slot = (frameCounter++ % sendAllChannelsInterval);
 
   /* CHANNELS */
   for (int i=0; i<8; i++) {
@@ -397,7 +394,7 @@ inline void setupFramePXX(uint8_t port, uint8_t sendUpperChannels)
 
           break;
       default:
-        if (abs(lowerValue - lastChannelValues[i]) + MOVEMENT_THRESHOLD <= abs(upperValue - lastChannelValues[i + 8])) {
+        if (abs(lowerValue - lastChannelValues[i]) <= abs(upperValue - lastChannelValues[i + 8])) {
             sendUpperChannel = true;
         }
       }
@@ -457,9 +454,9 @@ void setupPulsesPXX(uint8_t port)
   initPcmArray(port);
 
 #if defined(PXX_FREQUENCY_HIGH)
-  setupFramePXX(port, 0);
+  setupFramePXX(port, 0, 2);
   if (NUM_CHANNELS(port) > 8) {
-    setupFramePXX(port, 8);
+    setupFramePXX(port, 8, 2);
   }
 #else
   static uint8_t pass[NUM_MODULES] = { MODULES_INIT(0) };
@@ -467,6 +464,6 @@ void setupPulsesPXX(uint8_t port)
   if (pass[port]++ & 0x01) {
     sendUpperChannels = g_model.moduleData[port].channelsCount;
   }
-  setupFramePXX(port, sendUpperChannels);
+  setupFramePXX(port, sendUpperChannels, g_model.moduleData[port].pxx.sendAllChannelsInterval);
 #endif
 }
