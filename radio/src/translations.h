@@ -941,6 +941,7 @@ extern const pm_char STR_BLCOLOR[];
   extern const pm_char STR_BINDING_9_16_TELEM_ON[];
   extern const pm_char STR_BINDING_9_16_TELEM_OFF[];
   extern const pm_char STR_CHANNELRANGE[];
+  extern const pm_char STR_CHANNELINTERVAL[];
   extern const pm_char STR_ANTENNASELECTION[];
   extern const pm_char STR_ANTENNACONFIRM1[];
   extern const pm_char STR_ANTENNACONFIRM2[];
