@@ -381,7 +381,7 @@ inline void setupFramePXX(uint8_t port, uint8_t sendUpperChannels, uint8_t sendA
     }
     else {
       int channel = g_model.moduleData[port].channelsStart + i;
-      int lowerValue = channelOutputs[channel] + 2 * PPM_CH_CENTER(channel) - 2* PPM_CENTER;
+      int lowerValue = channelOutputs[channel] + 2 * PPM_CH_CENTER(channel) - 2 * PPM_CENTER;
       int upperValue = channelOutputs[channel + 8] + 2 * PPM_CH_CENTER(channel + 8) - 2 * PPM_CENTER;
 
       bool sendUpperChannel = false;
@@ -464,6 +464,6 @@ void setupPulsesPXX(uint8_t port)
   if (pass[port]++ & 0x01) {
     sendUpperChannels = g_model.moduleData[port].channelsCount;
   }
-  setupFramePXX(port, sendUpperChannels, g_model.moduleData[port].pxx.sendAllChannelsInterval);
+  setupFramePXX(port, sendUpperChannels, g_model.moduleData[port].channelsCount > 8 ? g_model.moduleData[port].pxx.sendAllChannelsInterval : 1);
 #endif
 }
