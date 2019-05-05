@@ -466,6 +466,6 @@ void setupPulsesPXX(uint8_t port)
   if (pass[port]++ & 0x01) {
     sendUpperChannels = g_model.moduleData[port].channelsCount;
   }
-  setupFramePXX(port, sendUpperChannels, g_model.moduleData[port].channelsCount > 8 ? g_model.moduleData[port].pxx.sendAllChannelsInterval : 1);
+  setupFramePXX(port, sendUpperChannels, g_model.moduleData[port].channelsCount > 0 ? g_model.moduleData[port].pxx.sendAllChannelsInterval : 1);
 #endif
 }
